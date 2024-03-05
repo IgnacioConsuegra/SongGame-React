@@ -4,7 +4,7 @@ import { TimeContext, KeyPressContext, GetMiddleButtonPosition } from '../MainPa
 
 import './Row.css'
 // eslint-disable-next-line react/prop-types
-export const Row = ({elementId, circles}) => {
+export const Row = ({elementId, circles, unit}) => {
   const [isDisplayed, setIsDisplayed]  = useState([]);
   const [testing, setTesting] = useState([]);
   const [keyResult, setKeyResult] = useState(false);
@@ -23,7 +23,7 @@ export const Row = ({elementId, circles}) => {
   }
   function handleChange() {
     if(lastPressed.key === 'z' && elementId === 1){
-      if((isDisplayed[0].middleAt >= (time - 0.5)) && (isDisplayed[0].middleAt <= (time + 0.5))  ){
+      if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.1))  ){
         isDisplayed.shift();
         setKeyResult(true);
       } else{
@@ -54,7 +54,12 @@ export const Row = ({elementId, circles}) => {
     try{
       if(testing[0].creationTime === time)
       {
-        setIsDisplayed((prev) => [...prev,{middleAt:  testing[0].middleAt, velocity: testing[0].velocity}]); 
+        setIsDisplayed((prev) => {
+          const newArray = [...prev, { middleAt: testing[0].middleAt, velocity: testing[0].velocity }];
+          newArray.sort((a, b) => a.middleAt - b.middleAt);
+        
+          return newArray;
+        }); 
         const newArray = testing.slice(1);
         setTesting(newArray);
       }
@@ -73,22 +78,21 @@ export const Row = ({elementId, circles}) => {
   }, [time]);
 
   useEffect(() => {
-  }, [testing])
-  useEffect(() => {
     console.log("IS displayed : ", isDisplayed);
   }, [isDisplayed]);
 
 
   return (
-    <div className='row'>
-      <div className='row-circle' id={`${elementId}`} ref={miMiddleButton}></div>
+    <div className='row' style={{width: unit * 10}}>
+      <div className='row-circle' id={`${elementId}`} ref={miMiddleButton}>
       {
         keyResult === true ? ('Good') : ('Bad')
       }
+      </div>
       {
         // eslint-disable-next-line react/prop-types
         isDisplayed.map((element) => {
-          return <Circle key={element.middleAt} velocity={element.velocity} middleAt = {element.middleAt} />
+          return <Circle key={element.middleAt} velocity={element.velocity} middleAt = {element.middleAt} unit={unit}/>
         })
       }
     </div>

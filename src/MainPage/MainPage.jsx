@@ -27,39 +27,34 @@ export const MainPage = () => {
   //This will be temp, 
   const row1Circles = [
     {
-      middleAt: 2,
+      middleAt: 6,
       velocity: 1,
-      index : 'A' + 2,
-    },
-    {
-      middleAt: 3,
-      velocity: 5,
       index : 'A' + 3,
     },
     {
-      middleAt: 4,
-      velocity: 4,
-      index : 'A'+ 4,
-    },
-    {
-      middleAt: 5,
-      velocity: 4,
-      index : 'A'+ 5,
-    },
-    {
-      middleAt: 6,
-      velocity: 5,
-      index : 'A'+ 6,
-    },
-    {
       middleAt: 7,
-      velocity: 2,
-      index : 'A'+ 7,
+      velocity: 1,
+      index : 'A' + 7,
     },
     {
       middleAt: 8,
       velocity: 1,
       index : 'A'+ 8,
+    },
+    {
+      middleAt: 9,
+      velocity: 1,
+      index : 'A'+ 9,
+    },
+    {
+      middleAt: 10,
+      velocity: 1,
+      index : 'A'+ 10,
+    },
+    {
+      middleAt: 11,
+      velocity: 1,
+      index : 'A'+ 11,
     },
   ]
 
@@ -71,7 +66,7 @@ export const MainPage = () => {
       const time = distance / velocity;
       const createAt = parseFloat((element.middleAt - time).toFixed(1));
       return {creationTime : createAt, middleAt : element.middleAt, velocity: element.velocity * sectionUnit.current, index: element.index}
-    })
+    }).sort((a, b) => a.creationTime - b.creationTime);
   }
   function handleKeyPress(key){
     switch (key) {
@@ -122,7 +117,7 @@ export const MainPage = () => {
       <TimeContext.Provider value={time}>
         <KeyPressContext.Provider value={lastPressed} >
           <GetMiddleButtonPosition.Provider value={dispatch}>
-            <Row elementId={1} circles={row1}/>       
+            <Row elementId={1} circles={row1} unit={sectionUnit}/>       
           </GetMiddleButtonPosition.Provider>   
         </KeyPressContext.Provider>
       </TimeContext.Provider>

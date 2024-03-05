@@ -5,6 +5,8 @@ div.row{
   border: 1px solid white;
   position: relative;
   font-size: 16px;
+  overflow-x: hidden;
+
 }
 div.row > div.row-circle{
   width: 6em;
@@ -14,4 +16,7 @@ div.row > div.row-circle{
   border-radius: 5000px;
   top: calc(50% - 3em);
   left: calc(50% - 3em);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
