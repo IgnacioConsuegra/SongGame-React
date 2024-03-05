@@ -1,15 +1,144 @@
 We got 
 
-TM  = Time circle need to be in the middle = 3;
-BP = Button middle position = 500px;
-RT(Refresh rate) = Times Per second circle move to left = 30; 
-
+MA  = Middle at, time circle need to be in the middle. 
+CA = Create At, circle needs to be created at this time in order to be in the middle in MA.
+Unit = Divide your screen in 10 equals parts. 
 
 We need {
-  Creation time of that circle. 
-    This creation time must be inferior to TM
-  Distance of that circle;
+  We are going to divide our screen in 10 parts, each one equal.
+  Our goal will be in the 5 unit. 
+  Our circles will be created in the 11 part. 
+  So, in order to be in the middle, a circle need to move 6 units. 
+  
+  Then, we have a distance of 6, and our velocity goes from 1-6Units; Let's do maths.
 
-  Velocity of that circle;
+
+  D = 6 Unit;
+  V = 1 Unit;
+  T = ???;
+
+  MA = 1; 
+  CA = MA - T;
+  
+  T = D / V;
+  T = 6 / 1;
+  T = 6; 
+
+  CA = MA - T;
+  CA = 1 - 6; 
+  CA = -5;
+
+  
+
+  So, if our circle V if 1 Unit, we need to create 5 seconds before it's supposed to be in the middle. 
+
+
+  D = 6 Unit;
+  V = 2 Unit;
+  T = ???;
+
+  MA = 1; 
+  CA = MA - T;
+  
+  T = D / V;
+  T = 6 / 2;
+  T = 3; 
+
+  CA = MA - T;
+  CA = 1 - 3; 
+  CA = -2;
+
+  So, if our circle V if 2 Unit, we need to create 3 seconds before it's supposed to be in the middle. 
+
+  D = 6 Unit;
+  V = 3 Unit;
+  T = ???;
+
+  MA = 1; 
+  CA = MA - T;
+  
+  T = D / V;
+  T = 6 / 3;
+  T = 2; 
+
+  CA = MA - T;
+  CA = 1 - 2; 
+  CA = -1;
+
+  So, if our circle V if 2 Unit, we need to create 1 seconds before it's supposed to be in the middle. 
+
+  D = 6 Unit;
+  V = 4 Unit;
+  T = ???;
+
+  MA = 1; 
+  CA = MA - T;
+  
+  T = D / V;
+  T = 6 / 4;
+  T = 1.5; 
+
+  CA = MA - T;
+  CA = 1 - 1.5; 
+  CA = -0.5;
+
+  So, if our circle V if 2 Unit, we need to create 1.5 seconds before it's supposed to be in the middle. 
+
+  D = 6 Unit;
+  V = 5 Unit;
+  T = ???;
+
+  MA = 1; 
+  CA = MA - T;
+  
+  T = D / V;
+  T = 6 / 5;
+  T = 1.2; 
+
+  CA = MA - T;
+  CA = 1 - 1.2; 
+  CA = -0.2;
+
+  So, if our circle V if 2 Unit, we need to create 1.2 seconds before it's supposed to be in the middle. 
+
+  D = 6 Unit;
+  V = 6 Unit;
+  T = ???;
+
+  MA = 1; 
+  CA = MA - T;
+  
+  T = D / V;
+  T = 6 / 6;
+  T = 1; 
+
+  CA = MA - T;
+  CA = 1 - 1; 
+  CA = 0;
+
+  So, if our circle V if 2 Unit, we need to create 1 seconds before it's supposed to be in the middle. 
+  
+
+  Then, we need to know, how much is a unit, so we are going to create this unit in our main page. 
+  We are going to calc our D,V,T, & CA inside our main, and we are going to pass this as a props to our rows.
+   
+  to our rows. 
+
+  D = 6 Unit;
+  V = 6 Unit;
+  T = ???;
+
+  MA = 1; 
+  CA = MA - T;
+  
+  T = D / V;
+  T = 6 / 6;
+  T = 1; 
+
+  CA = MA - T;
+  CA = 1 - 1; 
+  CA = 0;
+
+
 }
 

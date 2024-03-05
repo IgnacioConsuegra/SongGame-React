@@ -1,5 +1,5 @@
 import {Row} from './Row/Row';
-import { createContext, useState, useReducer } from 'react';
+import { createContext, useState, useReducer, useRef } from 'react';
 import './MainPage.css';
 import { useEffect } from 'react';
 
@@ -16,21 +16,58 @@ function reducer(middleButtonPosition, action){
 }
 
 export const MainPage = () => {
+
   const [middleButtonPosition, dispatch] = useReducer(reducer, {positionX : 520});
   const [time, setTime] = useState(0);
   const [lastPressed, setLastPressed]  = useState({key : '', times : 0});
+  const sectionRef = useRef();
+  const sectionUnit = useRef();
   const positionX = middleButtonPosition;
   const refreshRate = 30;
-  const middleAt = {
-    row1 : [1, 2],
+  //This will be temp, 
+  const row1Circles = [
+    {
+      middleAt: 1,
+      velocity: 1,
+      index : 'A'+2,
+    },
+    {
+      middleAt: 1,
+      velocity: 2,
+      index : 'A'+2.2,
+    },
+    {
+      middleAt: 1,
+      velocity: 3,
+      index : 'A'+3,
+    },
+    {
+      middleAt: 1,
+      velocity: 4,
+      index : 'A'+3,
+    },
+    {
+      middleAt: 1,
+      velocity: 5,
+      index : 'A'+3,
+    },
+    {
+      middleAt: 1,
+      velocity: 6,
+      index : 'A'+3,
+    },
+  ]
+  function calcCreationTime(arr){
+    const distance = sectionUnit.current * 6;
+    console.log(distance)
+    return arr.map((element) => 
+    {
+      const velocity = element.velocity * sectionUnit.current;
+      const time = distance / velocity;
+      const createAt = (element.middleAt - time).toFixed(1);
+      return {creationTime : createAt, middleAt : element.middleAt, velocity: element.velocity, index: element.index}
+    })
   }
-  // function getCreatingTime(row){
-  //   return row.map((element) => {
-      
-  //     return {distance: , velocity: }
-  //   })
-  // }
-
   function handleKeyPress(key){
     switch (key) {
       case 'z':
@@ -59,6 +96,13 @@ export const MainPage = () => {
       document.addEventListener('keydown', (event) => {
         handleKeyPress(event.key)
       });
+      const element = sectionRef.current;
+
+      if (element) {
+        const width = element.offsetWidth;
+        sectionUnit.current = width / 10;
+      }
+      console.log("calcCreationTime: ", calcCreationTime(row1Circles));
     }
   }, [])
   useEffect(() => {
@@ -66,12 +110,12 @@ export const MainPage = () => {
     return () => clearInterval(interval);
   }, [time]);
   return (
-    <section>
+    <section ref={sectionRef}>
       {time}
       <TimeContext.Provider value={time}>
         <KeyPressContext.Provider value={lastPressed} >
           <GetMiddleButtonPosition.Provider value={dispatch}>
-            <Row elementId={1} circles={middleAt.row1} />       
+            <Row elementId={1} circles={row1Circles} />       
           </GetMiddleButtonPosition.Provider>   
         </KeyPressContext.Provider>
       </TimeContext.Provider>

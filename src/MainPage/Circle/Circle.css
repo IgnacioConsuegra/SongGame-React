@@ -11,4 +11,5 @@ div.row-Circle{
   justify-content: center;
   top: calc(50% - 3em);
   left: calc(0% + 1000px);
+  color: black;
 }

@@ -11,11 +11,13 @@ export const Row = ({elementId, circles}) => {
     creationTime: 2,
     middleAt : 2,
     id: 2,
+    velocity: 5,
   },
   {
     creationTime: 3,
     middleAt : 3,
     id: 3,
+    velocity : 50,
   }]);
 
   const lastPressed = useContext(KeyPressContext);
@@ -32,7 +34,7 @@ export const Row = ({elementId, circles}) => {
   }
   function handleChange() {
     if(lastPressed.key === 'z' && elementId === 1){
-      if((isDisplayed[0] >= (time - 0.5)) && (isDisplayed[0] <= (time + 0.5))  ){
+      if((isDisplayed[0].middleAt >= (time - 0.5)) && (isDisplayed[0].middleAt <= (time + 0.5))  ){
         isDisplayed.shift();
       } else{
         isDisplayed.shift();
@@ -56,7 +58,7 @@ export const Row = ({elementId, circles}) => {
     try{
       if(testing[0].creationTime === time)
       {
-        setIsDisplayed((prev) => [...prev, testing[0].middleAt]); 
+        setIsDisplayed((prev) => [...prev,{middleAt:  testing[0].middleAt, velocity: testing[0].velocity}]); 
         const newArray = testing.slice(1);
         setTesting(newArray);
       }
@@ -76,7 +78,7 @@ export const Row = ({elementId, circles}) => {
       {
         // eslint-disable-next-line react/prop-types
         isDisplayed.map((element) => {
-          return <Circle key={element} numCircle={element} />
+          return <Circle key={element.middleAt} velocity={element.velocity} />
         })
       }
     </div>
