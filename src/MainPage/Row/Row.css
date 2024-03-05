@@ -1,0 +1,17 @@
+div.row{
+  width: 100%;
+  height: 20%;
+  background-color: red;
+  border: 1px solid white;
+  position: relative;
+  font-size: 16px;
+}
+div.row > div.row-circle{
+  width: 6em;
+  height: 6em;
+  background-color: green;
+  position: absolute;
+  border-radius: 5000px;
+  top: calc(50% - 3em);
+  left: calc(50% - 3em);
+}

@@ -1,0 +1,15 @@
+We got 
+
+TM  = Time circle need to be in the middle = 3;
+BP = Button middle position = 500px;
+RT(Refresh rate) = Times Per second circle move to left = 30; 
+
+
+We need {
+  Creation time of that circle. 
+    This creation time must be inferior to TM
+  Distance of that circle;
+
+  Velocity of that circle;
+}
+
