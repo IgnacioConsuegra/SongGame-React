@@ -6,19 +6,8 @@ import './Row.css'
 // eslint-disable-next-line react/prop-types
 export const Row = ({elementId, circles}) => {
   const [isDisplayed, setIsDisplayed]  = useState([]);
-  const [testing, setTesting] = useState([
-  {
-    creationTime: 2,
-    middleAt : 2,
-    id: 2,
-    velocity: 5,
-  },
-  {
-    creationTime: 3,
-    middleAt : 3,
-    id: 3,
-    velocity : 50,
-  }]);
+  const [testing, setTesting] = useState([]);
+  const [keyResult, setKeyResult] = useState(false);
 
   const lastPressed = useContext(KeyPressContext);
   const time = useContext(TimeContext);
@@ -36,8 +25,10 @@ export const Row = ({elementId, circles}) => {
     if(lastPressed.key === 'z' && elementId === 1){
       if((isDisplayed[0].middleAt >= (time - 0.5)) && (isDisplayed[0].middleAt <= (time + 0.5))  ){
         isDisplayed.shift();
+        setKeyResult(true);
       } else{
         isDisplayed.shift();
+        setKeyResult(false);
       }
     }
   }
@@ -47,9 +38,14 @@ export const Row = ({elementId, circles}) => {
   useEffect(() =>{
     return() => {
       const myPosition = miMiddleButton.current.offsetLeft;
+      setTesting(234);
     } 
   }, []);
 
+  useEffect(() =>{
+    console.log(circles)
+    setTesting(circles);
+  }, [circles])
   useEffect(() =>{
     handleChange();
   }, [lastPressed])
@@ -62,13 +58,24 @@ export const Row = ({elementId, circles}) => {
         const newArray = testing.slice(1);
         setTesting(newArray);
       }
+      if(testing[0].creationTime < time){
+        const newArray = testing.slice(1);
+        setTesting(newArray);
+      }
+      if(isDisplayed[0]["middleAt"] === Number && isDisplayed[0]["middleAt"] >  time){
+        const newArray = isDisplayed.slice(1);
+        setIsDisplayed(newArray);
+        console.log("Removing");
+      }
     }catch(err) {
+      true;
     }
   }, [time]);
 
   useEffect(() => {
   }, [testing])
   useEffect(() => {
+    console.log("IS displayed : ", isDisplayed);
   }, [isDisplayed]);
 
 
@@ -76,9 +83,12 @@ export const Row = ({elementId, circles}) => {
     <div className='row'>
       <div className='row-circle' id={`${elementId}`} ref={miMiddleButton}></div>
       {
+        keyResult === true ? ('Good') : ('Bad')
+      }
+      {
         // eslint-disable-next-line react/prop-types
         isDisplayed.map((element) => {
-          return <Circle key={element.middleAt} velocity={element.velocity} />
+          return <Circle key={element.middleAt} velocity={element.velocity} middleAt = {element.middleAt} />
         })
       }
     </div>

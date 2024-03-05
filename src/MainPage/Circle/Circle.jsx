@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import './Circle.css';
 
-export const Circle = ({velocity}) => {
+export const Circle = ({velocity, middleAt}) => {
   const [position, setPosition] = useState(1000);
   const thisButton = useRef();
 
@@ -9,7 +9,7 @@ export const Circle = ({velocity}) => {
     setTimeout(() =>{
       thisButton.current.style.left = `calc(0% + ${position}px)`;
       if(position > 500){
-        setPosition((prevP) => prevP - velocity);
+        setPosition((prevP) => prevP - (velocity / 30));
       }
     }, 1000 / 30);
   }, [position]);
@@ -17,7 +17,7 @@ export const Circle = ({velocity}) => {
 
   return (
     <div className='row-Circle' ref={thisButton}>
-      {velocity}
+      {middleAt}
     </div>
   )
 }

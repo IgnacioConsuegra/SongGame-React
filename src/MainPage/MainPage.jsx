@@ -20,52 +20,57 @@ export const MainPage = () => {
   const [middleButtonPosition, dispatch] = useReducer(reducer, {positionX : 520});
   const [time, setTime] = useState(0);
   const [lastPressed, setLastPressed]  = useState({key : '', times : 0});
+  const [row1, setRow1] = useState([]);
   const sectionRef = useRef();
   const sectionUnit = useRef();
-  const positionX = middleButtonPosition;
   const refreshRate = 30;
   //This will be temp, 
   const row1Circles = [
     {
-      middleAt: 1,
+      middleAt: 2,
       velocity: 1,
-      index : 'A'+2,
+      index : 'A' + 2,
     },
     {
-      middleAt: 1,
-      velocity: 2,
-      index : 'A'+2.2,
-    },
-    {
-      middleAt: 1,
-      velocity: 3,
-      index : 'A'+3,
-    },
-    {
-      middleAt: 1,
-      velocity: 4,
-      index : 'A'+3,
-    },
-    {
-      middleAt: 1,
+      middleAt: 3,
       velocity: 5,
-      index : 'A'+3,
+      index : 'A' + 3,
     },
     {
-      middleAt: 1,
-      velocity: 6,
-      index : 'A'+3,
+      middleAt: 4,
+      velocity: 4,
+      index : 'A'+ 4,
+    },
+    {
+      middleAt: 5,
+      velocity: 4,
+      index : 'A'+ 5,
+    },
+    {
+      middleAt: 6,
+      velocity: 5,
+      index : 'A'+ 6,
+    },
+    {
+      middleAt: 7,
+      velocity: 2,
+      index : 'A'+ 7,
+    },
+    {
+      middleAt: 8,
+      velocity: 1,
+      index : 'A'+ 8,
     },
   ]
+
   function calcCreationTime(arr){
     const distance = sectionUnit.current * 6;
-    console.log(distance)
     return arr.map((element) => 
     {
       const velocity = element.velocity * sectionUnit.current;
       const time = distance / velocity;
-      const createAt = (element.middleAt - time).toFixed(1);
-      return {creationTime : createAt, middleAt : element.middleAt, velocity: element.velocity, index: element.index}
+      const createAt = parseFloat((element.middleAt - time).toFixed(1));
+      return {creationTime : createAt, middleAt : element.middleAt, velocity: element.velocity * sectionUnit.current, index: element.index}
     })
   }
   function handleKeyPress(key){
@@ -102,20 +107,22 @@ export const MainPage = () => {
         const width = element.offsetWidth;
         sectionUnit.current = width / 10;
       }
-      console.log("calcCreationTime: ", calcCreationTime(row1Circles));
+      setRow1(calcCreationTime(row1Circles));
     }
   }, [])
   useEffect(() => {
     const interval = setInterval(() => setTime(parseFloat((time + 0.1).toFixed(1))), 0.1 * 1000);
     return () => clearInterval(interval);
   }, [time]);
+  useEffect(() =>{
+  }, [row1])
   return (
     <section ref={sectionRef}>
       {time}
       <TimeContext.Provider value={time}>
         <KeyPressContext.Provider value={lastPressed} >
           <GetMiddleButtonPosition.Provider value={dispatch}>
-            <Row elementId={1} circles={row1Circles} />       
+            <Row elementId={1} circles={row1}/>       
           </GetMiddleButtonPosition.Provider>   
         </KeyPressContext.Provider>
       </TimeContext.Provider>
