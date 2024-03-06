@@ -88,7 +88,7 @@ export const Row = ({elementId, circles, unit}) => {
       if(creationTime[0].creationTime === time)
       {
         setIsDisplayed((prev) => {
-          const newArray = [...prev, { middleAt: creationTime[0].middleAt, velocity: creationTime[0].velocity }];
+          const newArray = [...prev, { middleAt: creationTime[0].middleAt, velocity: creationTime[0].velocity, time: creationTime[0].time }];
           newArray.sort((a, b) => a.middleAt - b.middleAt);
         
           return newArray;
@@ -104,7 +104,7 @@ export const Row = ({elementId, circles, unit}) => {
       true;
     }
     try{  
-      if((typeof isDisplayed[0]["middleAt"] === 'number') && (time - 0.6> isDisplayed[0]["middleAt"])){
+      if((typeof isDisplayed[0]["middleAt"] === 'number') && (time - 0> isDisplayed[0]["middleAt"])){
         const newArray = isDisplayed.slice(1);
         setIsDisplayed(newArray);
       }
@@ -127,7 +127,7 @@ export const Row = ({elementId, circles, unit}) => {
       {
         // eslint-disable-next-line react/prop-types
         isDisplayed.map((element) => {
-          return <Circle key={element.middleAt} velocity={element.velocity} middleAt = {element.middleAt} unit={unit}/>
+          return <Circle key={element.middleAt} velocity={element.velocity} time={element.time} middleAt = {element.middleAt} unit={unit}/>
         })
       }
     </div>
