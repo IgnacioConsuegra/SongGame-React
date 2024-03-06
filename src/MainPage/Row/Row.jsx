@@ -1,17 +1,17 @@
 import {Circle} from '../Circle/Circle';
 import { useEffect, useRef, useContext, useState } from 'react';
-import { TimeContext, KeyPressContext, GetMiddleButtonPosition } from '../MainPage';
+import { TimeContext, KeyPressContext } from '../MainPage';
 
 import './Row.css'
 // eslint-disable-next-line react/prop-types
 export const Row = ({elementId, circles, unit}) => {
+
   const [isDisplayed, setIsDisplayed]  = useState([]);
-  const [testing, setTesting] = useState([]);
+  const [creationTime, setCreationTime] = useState([]);
   const [keyResult, setKeyResult] = useState(false);
 
   const lastPressed = useContext(KeyPressContext);
   const time = useContext(TimeContext);
-  const returnMiddleButtonPosition = useContext(GetMiddleButtonPosition);
   const miMiddleButton = useRef(null);
 
   function getElementPosition(element) {
@@ -23,12 +23,45 @@ export const Row = ({elementId, circles, unit}) => {
   }
   function handleChange() {
     if(lastPressed.key === 'z' && elementId === 1){
-      if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.1))  ){
-        isDisplayed.shift();
-        setKeyResult(true);
-      } else{
-        isDisplayed.shift();
+      try { 
+        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.1))  ){
+          isDisplayed.shift();
+          setKeyResult(true);
+        } else{
+          isDisplayed.shift();
+          setKeyResult(false);
+        }
+      }catch(err){
         setKeyResult(false);
+        return -1;
+      }
+    }
+    if(lastPressed.key === 'x' && elementId === 2){
+      try{
+        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.1))  ){
+          isDisplayed.shift();
+          setKeyResult(true);
+        } else{
+          isDisplayed.shift();
+          setKeyResult(false);
+        }
+      }catch(err){
+        setKeyResult(false);
+        return -1;
+      }
+    }
+    if(lastPressed.key === 'c' && elementId === 3){
+      try{
+        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.1))  ){
+          isDisplayed.shift();
+          setKeyResult(true);
+        } else{
+          isDisplayed.shift();
+          setKeyResult(false);
+        }
+      }catch(err){
+        setKeyResult(false);
+        return -1;
       }
     }
   }
@@ -37,48 +70,50 @@ export const Row = ({elementId, circles, unit}) => {
 
   useEffect(() =>{
     return() => {
-      const myPosition = miMiddleButton.current.offsetLeft;
-      setTesting(234);
+      setCreationTime(234);
     } 
   }, []);
 
   useEffect(() =>{
-    console.log(circles)
-    setTesting(circles);
-  }, [circles])
+    setCreationTime(circles);
+  }, [circles]);
+  
   useEffect(() =>{
     handleChange();
   }, [lastPressed])
 
   useEffect(() => {
     try{
-      if(testing[0].creationTime === time)
+      
+      if(creationTime[0].creationTime === time)
       {
         setIsDisplayed((prev) => {
-          const newArray = [...prev, { middleAt: testing[0].middleAt, velocity: testing[0].velocity }];
+          const newArray = [...prev, { middleAt: creationTime[0].middleAt, velocity: creationTime[0].velocity }];
           newArray.sort((a, b) => a.middleAt - b.middleAt);
         
           return newArray;
         }); 
-        const newArray = testing.slice(1);
-        setTesting(newArray);
+        const newArray = creationTime.slice(1);
+        setCreationTime(newArray);
       }
-      if(testing[0].creationTime < time){
-        const newArray = testing.slice(1);
-        setTesting(newArray);
-      }
-      if(isDisplayed[0]["middleAt"] === Number && isDisplayed[0]["middleAt"] >  time){
-        const newArray = isDisplayed.slice(1);
-        setIsDisplayed(newArray);
-        console.log("Removing");
+      if(creationTime[0].creationTime < time){
+        const newArray = creationTime.slice(1);
+        setCreationTime(newArray);
       }
     }catch(err) {
+      true;
+    }
+    try{  
+      if((typeof isDisplayed[0]["middleAt"] === 'number') && (time - 0.6> isDisplayed[0]["middleAt"])){
+        const newArray = isDisplayed.slice(1);
+        setIsDisplayed(newArray);
+      }
+    }catch(error) {
       true;
     }
   }, [time]);
 
   useEffect(() => {
-    console.log("IS displayed : ", isDisplayed);
   }, [isDisplayed]);
 
 

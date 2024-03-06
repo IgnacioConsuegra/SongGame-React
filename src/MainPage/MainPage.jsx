@@ -5,27 +5,14 @@ import { useEffect } from 'react';
 
 export const TimeContext = createContext();
 export const KeyPressContext = createContext();
-export const GetMiddleButtonPosition = createContext();
 
-// function reducer(middleButtonPosition, action){
-//   switch(action.type) { 
-//     case 'getValue' : 
-//     console.log("myReducer", action.payload.x)
-//     // return { position : action.payload.x}
-//   }
-// }
 
 export const MainPage = () => {
-
-  // const [middleButtonPosition, dispatch] = useReducer(reducer, {positionX : 520});
-  
   const [time, setTime] = useState(0);
   const [lastPressed, setLastPressed]  = useState({key : '', times : 0});
-  const [row1, setRow1] = useState([]);
-
+  const [rows, setRows] = useState([]);
   const sectionRef = useRef();
   const sectionUnit = useRef();
-  //This will be temp,
   const row1Circles = [
     {
       middleAt: 6,
@@ -34,12 +21,12 @@ export const MainPage = () => {
     },
     {
       middleAt: 7,
-      velocity: 1,
+      velocity: 2,
       index : 'A' + 7,
     },
     {
       middleAt: 8,
-      velocity: 1,
+      velocity: 3,
       index : 'A'+ 8,
     },
     {
@@ -56,6 +43,70 @@ export const MainPage = () => {
       middleAt: 11,
       velocity: 1,
       index : 'A'+ 11,
+    },
+  ]
+  const row2Circles = [
+    {
+      middleAt: 6,
+      velocity: 1,
+      index : 'B' + 3,
+    },
+    {
+      middleAt: 7,
+      velocity: 1,
+      index : 'B' + 7,
+    },
+    {
+      middleAt: 8,
+      velocity: 1,
+      index : 'B'+ 8,
+    },
+    {
+      middleAt: 9,
+      velocity: 1,
+      index : 'B'+ 9,
+    },
+    {
+      middleAt: 10,
+      velocity: 1,
+      index : 'B'+ 10,
+    },
+    {
+      middleAt: 11,
+      velocity: 1,
+      index : 'B'+ 11,
+    },
+  ]
+  const row3Circles = [
+    {
+      middleAt: 6,
+      velocity: 1,
+      index : 'C' + 3,
+    },
+    {
+      middleAt: 7,
+      velocity: 1,
+      index : 'C' + 7,
+    },
+    {
+      middleAt: 8,
+      velocity: 1,
+      index : 'C'+ 8,
+    },
+    {
+      middleAt: 9,
+      velocity: 1,
+      index : 'C'+ 9,
+    },
+    {
+      middleAt: 10,
+      velocity: 1,
+      index : 'C'+ 10,
+    },
+    {
+      middleAt: 11,
+      velocity: 1,
+      index : 'C'+ 11,
     },
   ]
 
@@ -103,7 +154,7 @@ export const MainPage = () => {
         const width = element.offsetWidth;
         sectionUnit.current = (width / 10);
       }
-      setRow1(calcCreationTime(row1Circles));
+      setRows([calcCreationTime(row1Circles), calcCreationTime(row2Circles), calcCreationTime(row3Circles)]);
     }
   }, [])
 
@@ -117,9 +168,9 @@ export const MainPage = () => {
       {time}
       <TimeContext.Provider value={time}>
         <KeyPressContext.Provider value={lastPressed} >
-            <Row elementId={1} circles={row1} unit={sectionUnit}/>       
-            <Row elementId={2} circles={row1} unit={sectionUnit}/>       
-            <Row elementId={3} circles={row1} unit={sectionUnit}/>       
+            <Row elementId={1} circles={rows[0]} unit={sectionUnit}/>       
+            <Row elementId={2} circles={rows[1]} unit={sectionUnit}/>       
+            <Row elementId={3} circles={rows[2]} unit={sectionUnit}/>       
         </KeyPressContext.Provider>
       </TimeContext.Provider>
     </section>
