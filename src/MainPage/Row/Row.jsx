@@ -84,7 +84,7 @@ export const Row = ({elementId, circles, unit}) => {
 
   return (
     <div className='row' style={{width: unit * 10}}>
-      <div className='row-circle' id={`${elementId}`} ref={miMiddleButton}>
+      <div style={{left: `${0 + ((unit.current * 5) - (16*3) )}px`}} className='row-circle' id={`${elementId}`} ref={miMiddleButton} >
       {
         keyResult === true ? ('Good') : ('Bad')
       }

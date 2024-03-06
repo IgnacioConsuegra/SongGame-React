@@ -15,7 +15,7 @@ div.row > div.row-circle{
   position: absolute;
   border-radius: 5000px;
   top: calc(50% - 3em);
-  left: calc(50% - 3em);
+  /* left: calc(50% - 3em); */
   display: flex;
   align-items: center;
   justify-content: center;

@@ -7,24 +7,25 @@ export const TimeContext = createContext();
 export const KeyPressContext = createContext();
 export const GetMiddleButtonPosition = createContext();
 
-function reducer(middleButtonPosition, action){
-  switch(action.type) { 
-    case 'getValue' : 
-    console.log("myReducer", action.payload.x)
-    // return { position : action.payload.x}
-  }
-}
+// function reducer(middleButtonPosition, action){
+//   switch(action.type) { 
+//     case 'getValue' : 
+//     console.log("myReducer", action.payload.x)
+//     // return { position : action.payload.x}
+//   }
+// }
 
 export const MainPage = () => {
 
-  const [middleButtonPosition, dispatch] = useReducer(reducer, {positionX : 520});
+  // const [middleButtonPosition, dispatch] = useReducer(reducer, {positionX : 520});
+  
   const [time, setTime] = useState(0);
   const [lastPressed, setLastPressed]  = useState({key : '', times : 0});
   const [row1, setRow1] = useState([]);
+
   const sectionRef = useRef();
   const sectionUnit = useRef();
-  const refreshRate = 30;
-  //This will be temp, 
+  //This will be temp,
   const row1Circles = [
     {
       middleAt: 6,
@@ -100,30 +101,27 @@ export const MainPage = () => {
 
       if (element) {
         const width = element.offsetWidth;
-        sectionUnit.current = width / 10;
+        sectionUnit.current = (width / 10);
       }
       setRow1(calcCreationTime(row1Circles));
     }
   }, [])
+
   useEffect(() => {
     const interval = setInterval(() => setTime(parseFloat((time + 0.1).toFixed(1))), 0.1 * 1000);
     return () => clearInterval(interval);
   }, [time]);
-  useEffect(() =>{
-  }, [row1])
+
   return (
     <section ref={sectionRef}>
       {time}
       <TimeContext.Provider value={time}>
         <KeyPressContext.Provider value={lastPressed} >
-          <GetMiddleButtonPosition.Provider value={dispatch}>
             <Row elementId={1} circles={row1} unit={sectionUnit}/>       
-          </GetMiddleButtonPosition.Provider>   
+            <Row elementId={2} circles={row1} unit={sectionUnit}/>       
+            <Row elementId={3} circles={row1} unit={sectionUnit}/>       
         </KeyPressContext.Provider>
       </TimeContext.Provider>
-      {/* <Row elementId={1} circles={[1]}/> */}
-      {/* <Row elementId={2} circles={[1]}/> */}
-      {/* <Row elementId={3} circles={[1]}/> */}
     </section>
   )
 }
