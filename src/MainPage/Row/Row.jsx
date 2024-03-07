@@ -1,6 +1,6 @@
 import {Circle} from '../Circle/Circle';
 import { useEffect, useRef, useContext, useState } from 'react';
-import { TimeContext, KeyPressContext } from '../MainPage';
+import { KeyPressContext } from '../MainPage';
 
 import './Row.css'
 // eslint-disable-next-line react/prop-types
@@ -9,9 +9,10 @@ export const Row = ({elementId, circles, unit}) => {
   const [isDisplayed, setIsDisplayed]  = useState([]);
   const [creationTime, setCreationTime] = useState([]);
   const [keyResult, setKeyResult] = useState(false);
+  const [time, setTime] = useState(0);
+  const initTime = useRef(0);
 
   const lastPressed = useContext(KeyPressContext);
-  const time = useContext(TimeContext);
   const miMiddleButton = useRef(null);
 
   function getElementPosition(element) {
@@ -24,7 +25,7 @@ export const Row = ({elementId, circles, unit}) => {
   function handleChange() {
     if(lastPressed.key === 'z' && elementId === 1){
       try { 
-        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.1))  ){
+        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.3))  ){
           isDisplayed.shift();
           setKeyResult(true);
         } else{
@@ -38,7 +39,7 @@ export const Row = ({elementId, circles, unit}) => {
     }
     if(lastPressed.key === 'x' && elementId === 2){
       try{
-        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.1))  ){
+        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.3))  ){
           isDisplayed.shift();
           setKeyResult(true);
         } else{
@@ -52,7 +53,7 @@ export const Row = ({elementId, circles, unit}) => {
     }
     if(lastPressed.key === 'c' && elementId === 3){
       try{
-        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.1))  ){
+        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.3))  ){
           isDisplayed.shift();
           setKeyResult(true);
         } else{
@@ -65,8 +66,6 @@ export const Row = ({elementId, circles, unit}) => {
       }
     }
   }
-  
-  
 
   useEffect(() =>{
     return() => {
@@ -75,7 +74,11 @@ export const Row = ({elementId, circles, unit}) => {
   }, []);
 
   useEffect(() =>{
+    initTime.current = Date.now();
     setCreationTime(circles);
+    setInterval(() => {
+      setTime(parseFloat(((Date.now() - initTime.current) / 1000).toFixed(1)));
+    }, 1000 / 100);
   }, [circles]);
   
   useEffect(() =>{
@@ -84,13 +87,11 @@ export const Row = ({elementId, circles, unit}) => {
 
   useEffect(() => {
     try{
-      
       if(creationTime[0].creationTime === time)
       {
         setIsDisplayed((prev) => {
-          const newArray = [...prev, { creationTime : creationTime[0].creationTime, middleAt: creationTime[0].middleAt, velocity: creationTime[0].velocity, time: creationTime[0].time}];
+          const newArray = [...prev, { ...creationTime[0]}];
           newArray.sort((a, b) => a.middleAt - b.middleAt);
-        
           return newArray;
         }); 
         const newArray = creationTime.slice(1);
@@ -104,7 +105,7 @@ export const Row = ({elementId, circles, unit}) => {
       true;
     }
     try{  
-      if((typeof isDisplayed[0]["middleAt"] === 'number') && (time - 0.2 > isDisplayed[0]["middleAt"])){
+      if((typeof isDisplayed[0]["middleAt"] === 'number') && (time - 0> isDisplayed[0]["middleAt"])){
         const newArray = isDisplayed.slice(1);
         setIsDisplayed(newArray);
       }
@@ -113,8 +114,7 @@ export const Row = ({elementId, circles, unit}) => {
     }
   }, [time]);
 
-  useEffect(() => {
-  }, [isDisplayed]);
+ 
 
 
   return (
@@ -123,13 +123,24 @@ export const Row = ({elementId, circles, unit}) => {
       {
         keyResult === true ? ('Good') : ('Bad')
       }
+      
       </div>
       {
         // eslint-disable-next-line react/prop-types
         isDisplayed.map((element) => {
-          return <Circle key={element.middleAt} creationTime={element.creationTime} velocity={element.velocity} time={element.time} middleAt = {element.middleAt} unit={unit}/>
+          return <Circle 
+          key={element.middleAt} 
+          middleAt = {element.middleAt} 
+          initPosition={element.initPosition}
+          endPosition={element.endPosition} 
+          timeNeed={element.timeNeed}/>
         })
       }
+      <div className='timeRow'>
+      {
+        time
+      }
+      </div>
     </div>
   )
 }

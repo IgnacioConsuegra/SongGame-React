@@ -8,11 +8,10 @@ div.row-Circle{
   top: calc(50% - 3em);
   color: black;
 }
-@keyframes moveLeft {
+@keyframes moveLeft{
   from {
     left: var(--init); 
-  }
-  to {
+  } to{
     left: var(--end); 
   }
 }

@@ -1,17 +1,13 @@
 import {Row} from './Row/Row';
-import {MusicPlayer} from './MusicPlayer/MusicPlayer'
-import { createContext, useState, useReducer, useRef } from 'react';
+import { createContext, useState, useRef } from 'react';
 import './MainPage.css';
 import { useEffect } from 'react';
 import Timer from './Timer/Timer';
 
-export const TimeContext = createContext();
 export const KeyPressContext = createContext();
 
 
 export const MainPage = () => {
-  const [time, setTime] = useState(0);
-  const initValue = useRef();
   const [lastPressed, setLastPressed]  = useState({key : '', times : 0});
   const [rows, setRows] = useState([]);
   const sectionRef = useRef();
@@ -28,29 +24,41 @@ export const MainPage = () => {
 
 
   const row1Circles = [
-    {middleAt: 7, velocity: 2, index: 'A7'},
-    {middleAt: 8, velocity: 2, index: 'A8'},
-    {middleAt: 9, velocity: 2, index: 'A9'},
-    {middleAt: 10, velocity: 2, index: 'A10'},
-    {middleAt: 11, velocity: 2, index: 'A11'},
-    {middleAt: 12, velocity: 2, index: 'A12'},
-    {middleAt: 13, velocity: 2, index: 'A13'},
-    {middleAt: 14, velocity: 2, index: 'A14'},
-    {middleAt: 15, velocity: 2, index: 'A15'},
-    {middleAt: 16, velocity: 2, index: 'A16'},
-    {middleAt: 17, velocity: 2, index: 'A17'},
-    {middleAt: 18, velocity: 2, index: 'A18'},
-    {middleAt: 19, velocity: 2, index: 'A19'},
-    {middleAt: 20, velocity: 2, index: 'A20'},
-    {middleAt: 21, velocity: 2, index: 'A21'},
-    {middleAt: 22, velocity: 2, index: 'A22'},
-    {middleAt: 23, velocity: 2, index: 'A23'},
-    {middleAt: 24, velocity: 2, index: 'A24'},
-    {middleAt: 25, velocity: 2, index: 'A25'},
-    {middleAt: 26, velocity: 2, index: 'A26'},
-    {middleAt: 27, velocity: 2, index: 'A27'},
-    {middleAt: 28, velocity: 2, index: 'A28'},
-    {middleAt: 29, velocity: 2, index: 'A29'}
+    {
+      middleAt: 6,
+      velocity: 1,
+      index : 'A' + 3,
+    },
+    {
+      middleAt: 7,
+      velocity: 2,
+      index : 'A' + 7,
+    },
+    {
+      middleAt: 8,
+      velocity: 3,
+      index : 'A'+ 8,
+    },
+    {
+      middleAt: 9,
+      velocity: 1,
+      index : 'A'+ 9,
+    },
+    {
+      middleAt: 10,
+      velocity: 1,
+      index : 'A'+ 10,
+    },
+    {
+      middleAt: 11,
+      velocity: 1,
+      index : 'A'+ 11,
+    },
+    {
+      middleAt: 20,
+      velocity: 1,
+      index : 'A'+ 20,
+    },
   ]
   const row2Circles = [
     {middleAt: 7, velocity: 1, index: 'B7'},
@@ -107,11 +115,17 @@ export const MainPage = () => {
     const distance = (sectionUnit.current * 6);
     return arr.map((element) => 
     {
-      const velocity = parseFloat((element.velocity * sectionUnit.current));
-      const time = parseFloat(distance / velocity);
-      const createAt = parseFloat((element.middleAt - time));
-      console.log({distance, velocity, time, createAt})
-      return {creationTime : createAt, middleAt : element.middleAt, velocity: element.velocity * sectionUnit.current, time: time, index: element.index}
+      const velocity = element.velocity * sectionUnit.current;
+      const time = distance / velocity;
+      const createAt = parseFloat((element.middleAt - time).toFixed(1));
+      return {
+        creationTime : createAt, 
+        middleAt : element.middleAt, 
+        index: element.index,
+        initPosition: sectionUnit.current * 11,
+        endPosition : (sectionUnit.current * 5) - (16 * 3),
+        timeNeed: element.middleAt - createAt,
+      }
     }).sort((a, b) => a.creationTime - b.creationTime);
   }
   function handleKeyPress(key){
@@ -152,22 +166,14 @@ export const MainPage = () => {
     }
   }, [])
 
-  useEffect(() => {
-    const interval = setInterval(() => setTime(parseFloat((time + 0.1).toFixed(1))), 0.1 * 1000);
-    return () => clearInterval(interval);
-  }, [time]);
 
   return (
     <section ref={sectionRef}>
-      {time}
-      <TimeContext.Provider value={time}>
         <KeyPressContext.Provider value={lastPressed} >
             <Row elementId={1} circles={rows[0]} unit={sectionUnit}/>       
             {/* <Row elementId={2} circles={rows[1]} unit={sectionUnit}/>        */}
             {/* <Row elementId={3} circles={rows[2]} unit={sectionUnit}/>        */}
         </KeyPressContext.Provider>
-      </TimeContext.Provider>
-      <MusicPlayer/>
     </section>
   )
 }

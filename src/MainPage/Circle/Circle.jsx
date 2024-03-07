@@ -1,18 +1,20 @@
 import { useEffect, useLayoutEffect, useRef, useState, creationTime } from 'react';
 import './Circle.css';
 
-export const Circle = ({velocity, time, middleAt, unit, creationTime}) => {
-
+export const Circle = ({ middleAt, initPosition, endPosition, timeNeed}) => {
+  
   const thisButton = useRef();
+
   const styles = {
     fontSize: `16px`,
     width: `6em`,
     height: `6em`,
-    left: `${(unit.current * 11) - (16 * 3)}px`,
-    animation: `moveLeft ${time}s linear forwards`, 
-    '--init': `${(unit.current * 11) - (16 * 3)}px`,
-    '--end': `${(unit.current * 5) - (16 * 3)}px`,
+    left: `5000px`,
+    animation: `moveLeft ${timeNeed}s linear forwards`,
+    '--init': `${initPosition}px`,
+    '--end': `${endPosition}px`,
   }
+
 
 
   return (
