@@ -13,14 +13,7 @@ export const MainPage = () => {
   const sectionRef = useRef();
   const sectionUnit = useRef();
 
-  useEffect(() => {
-    initValue.current = Date.now()
-  }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => setTime (((Date.now() - initValue.current)/ 1000 ).toFixed(1)), 1000 / 10);
-    return () => clearInterval(interval);
-  }, [time]);
 
 
   const row1Circles = [
@@ -171,8 +164,8 @@ export const MainPage = () => {
     <section ref={sectionRef}>
         <KeyPressContext.Provider value={lastPressed} >
             <Row elementId={1} circles={rows[0]} unit={sectionUnit}/>       
-            {/* <Row elementId={2} circles={rows[1]} unit={sectionUnit}/>        */}
-            {/* <Row elementId={3} circles={rows[2]} unit={sectionUnit}/>        */}
+            <Row elementId={2} circles={rows[1]} unit={sectionUnit}/>       
+            <Row elementId={3} circles={rows[2]} unit={sectionUnit}/>       
         </KeyPressContext.Provider>
     </section>
   )
