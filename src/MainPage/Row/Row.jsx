@@ -66,17 +66,6 @@ export const Row = ({elementId, circles, unit}) => {
       }
     }
   }
-  function calcCurrentPosition(time){
-    setIsDisplayed((prev) => {
-      return prev.map((element) => {
-        return {
-          ...element,
-          currentPosition : (element.originalPosition - (element.velocity * (time - element.creationTime ))),
-        }
-      })
-    })
-  }
-  
 
   useEffect(() =>{
     return() => {
@@ -90,10 +79,6 @@ export const Row = ({elementId, circles, unit}) => {
     setInterval(() => {
       setTime(parseFloat(((Date.now() - initTime.current) / 1000).toFixed(1)));
     }, 1000 / 100);
-
-    setInterval(() => {
-      calcCurrentPosition(parseFloat(((Date.now() - initTime.current) / 1000).toFixed(1)));
-    }, 1000 / 30);
   }, [circles]);
   
   useEffect(() =>{
@@ -138,13 +123,24 @@ export const Row = ({elementId, circles, unit}) => {
       {
         keyResult === true ? ('Good') : ('Bad')
       }
+      
       </div>
       {
         // eslint-disable-next-line react/prop-types
         isDisplayed.map((element) => {
-          return <Circle key={element.middleAt} currentPosition={element.currentPosition} middleAt = {element.middleAt}/>
+          return <Circle 
+          key={element.middleAt} 
+          middleAt = {element.middleAt} 
+          initPosition={element.initPosition}
+          endPosition={element.endPosition} 
+          timeNeed={element.timeNeed}/>
         })
       }
+      <div className='timeRow'>
+      {
+        time
+      }
+      </div>
     </div>
   )
 }

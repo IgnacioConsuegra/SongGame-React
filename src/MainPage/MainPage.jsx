@@ -123,10 +123,10 @@ export const MainPage = () => {
       return {
         creationTime : createAt, 
         middleAt : element.middleAt, 
-        velocity: element.velocity * sectionUnit.current, 
         index: element.index,
-        originalPosition: sectionUnit.current * 11,
-        currentPosition: sectionUnit.current * 11,
+        initPosition: sectionUnit.current * 11,
+        endPosition : (sectionUnit.current * 5) - (16 * 3),
+        timeNeed: element.middleAt - createAt,
       }
     }).sort((a, b) => a.creationTime - b.creationTime);
   }
@@ -173,8 +173,8 @@ export const MainPage = () => {
     <section ref={sectionRef}>
         <KeyPressContext.Provider value={lastPressed} >
             <Row elementId={1} circles={rows[0]} unit={sectionUnit}/>       
-            {/* <Row elementId={2} circles={rows[1]} unit={sectionUnit}/>        */}
-            {/* <Row elementId={3} circles={rows[2]} unit={sectionUnit}/>        */}
+            <Row elementId={2} circles={rows[1]} unit={sectionUnit}/>       
+            <Row elementId={3} circles={rows[2]} unit={sectionUnit}/>       
         </KeyPressContext.Provider>
     </section>
   )

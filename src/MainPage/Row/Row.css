@@ -20,3 +20,8 @@ div.row > div.row-circle{
   align-items: center;
   justify-content: center;
 }
+div.timeRow{
+  position: absolute;
+  top: 0;
+  left: calc(50%);
+}

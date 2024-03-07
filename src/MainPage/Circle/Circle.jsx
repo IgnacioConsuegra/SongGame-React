@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './Circle.css';
 
-export const Circle = ({ middleAt, currentPosition}) => {
+export const Circle = ({ middleAt, initPosition, endPosition, timeNeed}) => {
   
   const thisButton = useRef();
 
@@ -10,11 +10,12 @@ export const Circle = ({ middleAt, currentPosition}) => {
     width: `6em`,
     height: `6em`,
     left: `5000px`,
+    animation: `moveLeft ${timeNeed}s linear forwards`,
+    '--init': `${initPosition}px`,
+    '--end': `${endPosition}px`,
   }
 
-  useEffect(() => {
-    thisButton.current.style.left = `${currentPosition}px`;
-  }, [currentPosition]);
+
 
   return (
     <div className='row-Circle' ref={thisButton} style={styles}>
