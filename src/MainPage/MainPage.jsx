@@ -1,14 +1,12 @@
 import {Row} from './Row/Row';
-import { createContext, useState, useReducer, useRef } from 'react';
+import { createContext, useState, useRef } from 'react';
 import './MainPage.css';
 import { useEffect } from 'react';
 
-export const TimeContext = createContext();
 export const KeyPressContext = createContext();
 
 
 export const MainPage = () => {
-  const [time, setTime] = useState(0);
   const [lastPressed, setLastPressed]  = useState({key : '', times : 0});
   const [rows, setRows] = useState([]);
   const sectionRef = useRef();
@@ -43,6 +41,11 @@ export const MainPage = () => {
       middleAt: 11,
       velocity: 1,
       index : 'A'+ 11,
+    },
+    {
+      middleAt: 20,
+      velocity: 1,
+      index : 'A'+ 20,
     },
   ]
   const row2Circles = [
@@ -117,7 +120,14 @@ export const MainPage = () => {
       const velocity = element.velocity * sectionUnit.current;
       const time = distance / velocity;
       const createAt = parseFloat((element.middleAt - time).toFixed(1));
-      return {creationTime : createAt, middleAt : element.middleAt, velocity: element.velocity * sectionUnit.current, index: element.index}
+      return {
+        creationTime : createAt, 
+        middleAt : element.middleAt, 
+        velocity: element.velocity * sectionUnit.current, 
+        index: element.index,
+        originalPosition: sectionUnit.current * 11,
+        currentPosition: sectionUnit.current * 11,
+      }
     }).sort((a, b) => a.creationTime - b.creationTime);
   }
   function handleKeyPress(key){
@@ -158,21 +168,14 @@ export const MainPage = () => {
     }
   }, [])
 
-  useEffect(() => {
-    const interval = setInterval(() => setTime(parseFloat((time + 0.1).toFixed(1))), 0.1 * 1000);
-    return () => clearInterval(interval);
-  }, [time]);
 
   return (
     <section ref={sectionRef}>
-      {time}
-      <TimeContext.Provider value={time}>
         <KeyPressContext.Provider value={lastPressed} >
             <Row elementId={1} circles={rows[0]} unit={sectionUnit}/>       
-            <Row elementId={2} circles={rows[1]} unit={sectionUnit}/>       
-            <Row elementId={3} circles={rows[2]} unit={sectionUnit}/>       
+            {/* <Row elementId={2} circles={rows[1]} unit={sectionUnit}/>        */}
+            {/* <Row elementId={3} circles={rows[2]} unit={sectionUnit}/>        */}
         </KeyPressContext.Provider>
-      </TimeContext.Provider>
     </section>
   )
 }

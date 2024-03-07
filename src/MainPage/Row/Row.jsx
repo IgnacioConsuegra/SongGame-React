@@ -1,6 +1,6 @@
 import {Circle} from '../Circle/Circle';
 import { useEffect, useRef, useContext, useState } from 'react';
-import { TimeContext, KeyPressContext } from '../MainPage';
+import { KeyPressContext } from '../MainPage';
 
 import './Row.css'
 // eslint-disable-next-line react/prop-types
@@ -9,9 +9,10 @@ export const Row = ({elementId, circles, unit}) => {
   const [isDisplayed, setIsDisplayed]  = useState([]);
   const [creationTime, setCreationTime] = useState([]);
   const [keyResult, setKeyResult] = useState(false);
+  const [time, setTime] = useState(0);
+  const initTime = useRef(0);
 
   const lastPressed = useContext(KeyPressContext);
-  const time = useContext(TimeContext);
   const miMiddleButton = useRef(null);
 
   function getElementPosition(element) {
@@ -65,7 +66,16 @@ export const Row = ({elementId, circles, unit}) => {
       }
     }
   }
-  
+  function calcCurrentPosition(time){
+    setIsDisplayed((prev) => {
+      return prev.map((element) => {
+        return {
+          ...element,
+          currentPosition : (element.originalPosition - (element.velocity * (time - element.creationTime ))),
+        }
+      })
+    })
+  }
   
 
   useEffect(() =>{
@@ -75,7 +85,15 @@ export const Row = ({elementId, circles, unit}) => {
   }, []);
 
   useEffect(() =>{
+    initTime.current = Date.now();
     setCreationTime(circles);
+    setInterval(() => {
+      setTime(parseFloat(((Date.now() - initTime.current) / 1000).toFixed(1)));
+    }, 1000 / 100);
+
+    setInterval(() => {
+      calcCurrentPosition(parseFloat(((Date.now() - initTime.current) / 1000).toFixed(1)));
+    }, 1000 / 30);
   }, [circles]);
   
   useEffect(() =>{
@@ -84,13 +102,11 @@ export const Row = ({elementId, circles, unit}) => {
 
   useEffect(() => {
     try{
-      
       if(creationTime[0].creationTime === time)
       {
         setIsDisplayed((prev) => {
-          const newArray = [...prev, { middleAt: creationTime[0].middleAt, velocity: creationTime[0].velocity }];
+          const newArray = [...prev, { ...creationTime[0]}];
           newArray.sort((a, b) => a.middleAt - b.middleAt);
-        
           return newArray;
         }); 
         const newArray = creationTime.slice(1);
@@ -113,8 +129,7 @@ export const Row = ({elementId, circles, unit}) => {
     }
   }, [time]);
 
-  useEffect(() => {
-  }, [isDisplayed]);
+ 
 
 
   return (
@@ -127,7 +142,7 @@ export const Row = ({elementId, circles, unit}) => {
       {
         // eslint-disable-next-line react/prop-types
         isDisplayed.map((element) => {
-          return <Circle key={element.middleAt} velocity={element.velocity} middleAt = {element.middleAt} unit={unit}/>
+          return <Circle key={element.middleAt} currentPosition={element.currentPosition} middleAt = {element.middleAt}/>
         })
       }
     </div>
