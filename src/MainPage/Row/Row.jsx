@@ -25,7 +25,7 @@ export const Row = ({elementId, circles, unit}) => {
   function handleChange() {
     if(lastPressed.key === 'z' && elementId === 1){
       try { 
-        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.1))  ){
+        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.3))  ){
           isDisplayed.shift();
           setKeyResult(true);
         } else{
@@ -39,7 +39,7 @@ export const Row = ({elementId, circles, unit}) => {
     }
     if(lastPressed.key === 'x' && elementId === 2){
       try{
-        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.1))  ){
+        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.3))  ){
           isDisplayed.shift();
           setKeyResult(true);
         } else{
@@ -53,7 +53,7 @@ export const Row = ({elementId, circles, unit}) => {
     }
     if(lastPressed.key === 'c' && elementId === 3){
       try{
-        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.1))  ){
+        if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.3))  ){
           isDisplayed.shift();
           setKeyResult(true);
         } else{
@@ -105,7 +105,7 @@ export const Row = ({elementId, circles, unit}) => {
       true;
     }
     try{  
-      if((typeof isDisplayed[0]["middleAt"] === 'number') && (time - 0.6> isDisplayed[0]["middleAt"])){
+      if((typeof isDisplayed[0]["middleAt"] === 'number') && (time - 0> isDisplayed[0]["middleAt"])){
         const newArray = isDisplayed.slice(1);
         setIsDisplayed(newArray);
       }
