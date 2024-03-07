@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-const useAudio = url => {
-  const [audio] = useState(new Audio('../../../public/tabito.mp3'));
-  const [playing, setPlaying] = useState(true);
 
-  const toggle = () => setPlaying(!playing);
+export const MusicPlayer = ({ url, playing }) => {
+  const [audio] = useState(new Audio(url));
+  const [isPlaying, setPlaying] = useState(playing);
+
 
   useEffect(() => {
-      playing ? audio.play() : audio.pause();
+    isPlaying ? audio.play() : audio.pause();
     },
-    [playing]
+    [isPlaying]
   );
 
   useEffect(() => {
@@ -19,18 +19,4 @@ const useAudio = url => {
     };
   }, []);
 
-  return [playing, toggle];
 };
-
-export const MusicPlayer = ({ url }) => {
-  const [playing, toggle] = useAudio(url);
-
-  return (
-    <div>
-      <button onClick={toggle}>{playing ? "Pause" : "Play"}</button>
-    </div>
-  );
-};
-
-export default MusicPlayer;
-{/* <audio src="../../../public/tabito.mp3" controls autoPlay={isPlaying} ref={myAudio}/>  */}

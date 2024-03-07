@@ -1,14 +1,16 @@
 import {Row} from './Row/Row';
+import {MusicPlayer} from './MusicPlayer/MusicPlayer';
+import {MyButton} from './MyButton/MyButton'
 import { createContext, useState, useRef } from 'react';
 import './MainPage.css';
 import { useEffect } from 'react';
-import Timer from './Timer/Timer';
 
 export const KeyPressContext = createContext();
 
 
 export const MainPage = () => {
   const [lastPressed, setLastPressed]  = useState({key : '', times : 0});
+  const [init, setInit] = useState(false)
   const [rows, setRows] = useState([]);
   const sectionRef = useRef();
   const sectionUnit = useRef();
@@ -18,39 +20,32 @@ export const MainPage = () => {
 
   const row1Circles = [
     {
-      middleAt: 6,
-      velocity: 1,
-      index : 'A' + 3,
+      middleAt: 2,
+      velocity: 4,
     },
     {
-      middleAt: 7,
-      velocity: 2,
-      index : 'A' + 7,
+      middleAt: 3,
+      velocity: 4,
     },
     {
       middleAt: 8,
       velocity: 3,
-      index : 'A'+ 8,
     },
     {
       middleAt: 9,
       velocity: 1,
-      index : 'A'+ 9,
     },
     {
       middleAt: 10,
       velocity: 1,
-      index : 'A'+ 10,
     },
     {
       middleAt: 11,
       velocity: 1,
-      index : 'A'+ 11,
     },
     {
       middleAt: 20,
       velocity: 1,
-      index : 'A'+ 20,
     },
   ]
   const row2Circles = [
@@ -104,7 +99,7 @@ export const MainPage = () => {
     {middleAt: 29, velocity: 1, index: 'C29'}
   ]
 
-  function calcCreationTime(arr){
+  function calcCreationTime(arr, char){
     const distance = (sectionUnit.current * 6);
     return arr.map((element) => 
     {
@@ -114,7 +109,7 @@ export const MainPage = () => {
       return {
         creationTime : createAt, 
         middleAt : element.middleAt, 
-        index: element.index,
+        index: char + element.middleAt,
         initPosition: sectionUnit.current * 11,
         endPosition : (sectionUnit.current * 5) - (16 * 3),
         timeNeed: element.middleAt - createAt,
@@ -142,7 +137,9 @@ export const MainPage = () => {
         break;
     }
   }
-
+  function handleInit() {
+    setInit(true)
+  }
 
   useEffect(() => {
     return() => {
@@ -155,18 +152,30 @@ export const MainPage = () => {
         const width = element.offsetWidth;
         sectionUnit.current = parseFloat((width / 10));
       }
-      setRows([calcCreationTime(row1Circles), calcCreationTime(row2Circles), calcCreationTime(row3Circles)]);
+      setRows([calcCreationTime(row1Circles, "A"), calcCreationTime(row2Circles, "B"), calcCreationTime(row3Circles, "C")]);
     }
   }, [])
 
+  
 
   return (
     <section ref={sectionRef}>
-        <KeyPressContext.Provider value={lastPressed} >
+      {
+        !init && 
+        (
+          <MyButton handleClick={handleInit}>Init</MyButton>
+        )
+      }
+      {
+        init && (
+          <KeyPressContext.Provider value={lastPressed} >
             <Row elementId={1} circles={rows[0]} unit={sectionUnit}/>       
             <Row elementId={2} circles={rows[1]} unit={sectionUnit}/>       
             <Row elementId={3} circles={rows[2]} unit={sectionUnit}/>       
-        </KeyPressContext.Provider>
+            <MusicPlayer url={`public/tabito.mp3`} playing = {init}/>
+          </KeyPressContext.Provider>
+        )
+      }
     </section>
   )
 }
