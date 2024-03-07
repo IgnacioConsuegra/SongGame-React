@@ -1,8 +1,6 @@
 div.row{
   width: 100%;
   height: 20%;
-  background-color: red;
-  border: 1px solid white;
   position: relative;
   font-size: 16px;
   overflow: hidden;
@@ -15,7 +13,6 @@ div.row > div.row-circle{
   position: absolute;
   border-radius: 5000px;
   top: calc(50% - 3em);
-  /* left: calc(50% - 3em); */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,4 +21,24 @@ div.timeRow{
   position: absolute;
   top: 0;
   left: calc(50%);
+}
+
+.goodTiming { 
+  animation: grow 0.1s linear;
+  outline: 0px solid rgb(255, 255, 255);
+}
+.badTiming { 
+  animation: grow 0.1s linear;
+  outline: 0px solid rgb(255, 0, 0);
+}
+
+@keyframes grow {
+  from{
+    outline-width: 1px;
+    outline-offset: 1px;
+  }
+  to{
+    outline-width: 1px;
+    outline-offset: 20px;
+  }
 }

@@ -10,6 +10,7 @@ export const Row = ({elementId, circles, unit}) => {
   const [creationTime, setCreationTime] = useState([]);
   const [keyResult, setKeyResult] = useState(false);
   const [time, setTime] = useState(0);
+  const [middleButtonNewClass, setMiddleButtonNewClass] = useState(0)
   const initTime = useRef(0);
 
   const lastPressed = useContext(KeyPressContext);
@@ -28,12 +29,15 @@ export const Row = ({elementId, circles, unit}) => {
         if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.3))  ){
           isDisplayed.shift();
           setKeyResult(true);
+          setMiddleButtonNewClass("goodTiming")
         } else{
           isDisplayed.shift();
           setKeyResult(false);
+          setMiddleButtonNewClass("badTiming");
         }
       }catch(err){
         setKeyResult(false);
+        setMiddleButtonNewClass("badTiming");
         return -1;
       }
     }
@@ -42,12 +46,17 @@ export const Row = ({elementId, circles, unit}) => {
         if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.3))  ){
           isDisplayed.shift();
           setKeyResult(true);
+          setMiddleButtonNewClass("goodTiming");
+
         } else{
           isDisplayed.shift();
           setKeyResult(false);
+          setMiddleButtonNewClass("badTiming");
+
         }
       }catch(err){
         setKeyResult(false);
+        setMiddleButtonNewClass("badTiming");
         return -1;
       }
     }
@@ -56,12 +65,17 @@ export const Row = ({elementId, circles, unit}) => {
         if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.3))  ){
           isDisplayed.shift();
           setKeyResult(true);
+          setMiddleButtonNewClass("goodTiming");
+
         } else{
           isDisplayed.shift();
           setKeyResult(false);
+          setMiddleButtonNewClass("badTiming");
         }
       }catch(err){
         setKeyResult(false);
+        setMiddleButtonNewClass("badTiming");
+
         return -1;
       }
     }
@@ -108,18 +122,28 @@ export const Row = ({elementId, circles, unit}) => {
       if((typeof isDisplayed[0]["middleAt"] === 'number') && (time - 0> isDisplayed[0]["middleAt"])){
         const newArray = isDisplayed.slice(1);
         setIsDisplayed(newArray);
+        setMiddleButtonNewClass("badTiming");
+
       }
     }catch(error) {
       true;
     }
   }, [time]);
 
- 
+  useEffect(() => {
+    setTimeout(() => {
+      setMiddleButtonNewClass(false);
+    }, 1000/10);
+  }, [middleButtonNewClass])
 
 
   return (
     <div className='row' style={{width: unit * 10}}>
-      <div style={{left: `${0 + ((unit.current * 5) - (16*3) )}px`}} className='row-circle' id={`${elementId}`} ref={miMiddleButton} >
+      <div 
+      style={{left: `${0 + ((unit.current * 5) - (16*3) )}px`}} 
+      className={`row-circle ${middleButtonNewClass}`} 
+      id={`${elementId}`} 
+      ref={miMiddleButton} >
       {
         keyResult === true ? ('Good') : ('Bad')
       }
