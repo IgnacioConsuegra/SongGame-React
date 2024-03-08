@@ -12,7 +12,7 @@ export const Row = ({elementId, circles, unit}) => {
   const [time, setTime] = useState(0);
   const [middleButtonNewClass, setMiddleButtonNewClass] = useState(0)
   const initTime = useRef(0);
-
+  const audioRef = useRef();
   const lastPressed = useContext(KeyPressContext);
   const miMiddleButton = useRef(null);
 
@@ -25,13 +25,15 @@ export const Row = ({elementId, circles, unit}) => {
   }
   function handleChange() {
     if(lastPressed.key === 'z' && elementId === 1){
+      handleAudio();
       try { 
+
         if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.3))  ){
           isDisplayed.shift();
           setKeyResult(true);
-          setMiddleButtonNewClass("goodTiming")
+          setMiddleButtonNewClass("goodTiming");
         } else{
-          isDisplayed.shift();
+          // isDisplayed.shift();
           setKeyResult(false);
           setMiddleButtonNewClass("badTiming");
         }
@@ -42,6 +44,7 @@ export const Row = ({elementId, circles, unit}) => {
       }
     }
     if(lastPressed.key === 'x' && elementId === 2){
+      handleAudio();
       try{
         if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.3))  ){
           isDisplayed.shift();
@@ -49,7 +52,7 @@ export const Row = ({elementId, circles, unit}) => {
           setMiddleButtonNewClass("goodTiming");
 
         } else{
-          isDisplayed.shift();
+          // isDisplayed.shift();
           setKeyResult(false);
           setMiddleButtonNewClass("badTiming");
 
@@ -61,6 +64,7 @@ export const Row = ({elementId, circles, unit}) => {
       }
     }
     if(lastPressed.key === 'c' && elementId === 3){
+      handleAudio();
       try{
         if((isDisplayed[0].middleAt >= (time - 0.8)) && (isDisplayed[0].middleAt <= (time + 0.3))  ){
           isDisplayed.shift();
@@ -68,7 +72,7 @@ export const Row = ({elementId, circles, unit}) => {
           setMiddleButtonNewClass("goodTiming");
 
         } else{
-          isDisplayed.shift();
+          // isDisplayed.shift();
           setKeyResult(false);
           setMiddleButtonNewClass("badTiming");
         }
@@ -79,9 +83,13 @@ export const Row = ({elementId, circles, unit}) => {
         return -1;
       }
     }
-  }
 
+  }
+  function handleAudio(){
+    audioRef.current.play();
+  }
   useEffect(() =>{
+    
     return() => {
       setCreationTime(234);
     } 
@@ -139,6 +147,7 @@ export const Row = ({elementId, circles, unit}) => {
 
   return (
     <div className='row' style={{width: unit * 10}}>
+      
       <div 
       style={{left: `${0 + ((unit.current * 5) - (16*3) )}px`}} 
       className={`row-circle ${middleButtonNewClass}`} 
@@ -161,9 +170,8 @@ export const Row = ({elementId, circles, unit}) => {
         })
       }
       <div className='timeRow'>
-      {
-        time
-      }
+      {time}
+      <audio src="public/osuHit1.mp3" ref={audioRef}></audio>
       </div>
     </div>
   )

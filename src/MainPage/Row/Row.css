@@ -34,11 +34,11 @@ div.timeRow{
 
 @keyframes grow {
   from{
-    outline-width: 1px;
+    outline-width: 2px;
     outline-offset: 1px;
   }
   to{
-    outline-width: 1px;
+    outline-width: 2px;
     outline-offset: 20px;
   }
 }
