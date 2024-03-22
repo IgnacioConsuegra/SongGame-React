@@ -1,5 +1,4 @@
 import {Row} from './Row/Row';
-import {MusicPlayer} from './MusicPlayer/MusicPlayer';
 import {MyButton} from './MyButton/MyButton'
 import { createContext, useState, useRef } from 'react';
 import './MainPage.css';
@@ -278,7 +277,7 @@ export const MainPage = () => {
 
   function calcCreationTime(arr, char){
     const distance = (sectionUnit.current * 6);
-    const waiT = 0.3;
+    const waiT = 0.2;
     return arr.map((element) => 
     {
       const velocity = element.velocity * sectionUnit.current;
@@ -348,9 +347,9 @@ export const MainPage = () => {
         init && (
           <KeyPressContext.Provider value={lastPressed} >
             <audio src="public/song.mp3" autoPlay></audio>
-            <Row elementId={1} circles={rows[0]} unit={sectionUnit}/>       
-            <Row elementId={2} circles={rows[1]} unit={sectionUnit}/>       
-            <Row elementId={3} circles={rows[2]} unit={sectionUnit}/> 
+            <Row elementId={1} circles={rows[0]} unit={sectionUnit.current}/>       
+            <Row elementId={2} circles={rows[1]} unit={sectionUnit.current}/>       
+            <Row elementId={3} circles={rows[2]} unit={sectionUnit.current}/> 
           </KeyPressContext.Provider>
         )
       }

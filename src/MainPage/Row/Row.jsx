@@ -89,7 +89,7 @@ export const Row = ({elementId, circles, unit}) => {
     audioRef.current.play();
   }
   useEffect(() =>{
-    
+    console.log(elementId, unit)
     return() => {
       setCreationTime(234);
     } 
@@ -149,7 +149,7 @@ export const Row = ({elementId, circles, unit}) => {
     <div className='row' style={{width: unit * 10}}>
       
       <div 
-      style={{left: `${0 + ((unit.current * 5) - (16*3) )}px`}} 
+      style={{left: `${0 + ((unit * 5) - (16*3) )}px`}} 
       className={`row-circle ${middleButtonNewClass}`} 
       id={`${elementId}`} 
       ref={miMiddleButton} >
@@ -170,7 +170,6 @@ export const Row = ({elementId, circles, unit}) => {
         })
       }
       <div className='timeRow'>
-      {/* {time} */}
       <audio src="public/hit.mp3" ref={audioRef}></audio>
       </div>
     </div>
