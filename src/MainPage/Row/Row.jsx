@@ -170,8 +170,8 @@ export const Row = ({elementId, circles, unit}) => {
         })
       }
       <div className='timeRow'>
-      {time}
-      <audio src="public/osuHit1.mp3" ref={audioRef}></audio>
+      {/* {time} */}
+      <audio src="public/hit.mp3" ref={audioRef}></audio>
       </div>
     </div>
   )

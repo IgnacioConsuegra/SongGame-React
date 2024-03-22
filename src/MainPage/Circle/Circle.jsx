@@ -19,7 +19,7 @@ export const Circle = ({ middleAt, initPosition, endPosition, timeNeed}) => {
 
   return (
     <div className='row-Circle' ref={thisButton} style={styles}>
-      {middleAt}
+      {/* {middleAt} */}
     </div>
   )
 }
